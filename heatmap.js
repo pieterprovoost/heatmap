@@ -16,7 +16,8 @@ angular.module("heatmap", []).directive("heatmap",
 					margin: { top: 50, right: 0, bottom: 100, left: 50 },
 					buckets: 9,
 					colors: ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"],
-					duration: 1000
+					duration: 1000,
+					legendWidth: 0.3
 				};
 
 				if (scope.options) {
@@ -56,7 +57,7 @@ angular.module("heatmap", []).directive("heatmap",
 
 					var xGridSize = Math.floor(width / x.length);
 					var yGridSize = Math.floor(height / y.length);
-					var legendElementWidth = xGridSize;
+					var legendElementWidth = Math.floor(width * options.legendWidth / (options.buckets));
 					var legendElementHeight = height / 20;
 
 					var yLabels = svg.selectAll(".yLabel")
@@ -73,10 +74,10 @@ angular.module("heatmap", []).directive("heatmap",
 						.data(x)
 						.enter().append("text")
 						.text(function(d) { return d; })
-						.attr("y", function(d, i) { return -i * xGridSize; })
+						.attr("y", function(d, i) { return i * xGridSize; })
 						.attr("x", 0)
-						.style("text-anchor", "end")
-						.attr("transform", "translate(" + xGridSize / 2 + ", -10) rotate(90) ")
+						.style("text-anchor", "start")
+						.attr("transform", "rotate(-90) translate(10, " + xGridSize / 2 + ")")
 						.attr("class", function(d, i) { return ("xLabel axis"); });
 
 					var colorScale = d3.scale.quantile()

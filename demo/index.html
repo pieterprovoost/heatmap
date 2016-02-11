@@ -10,7 +10,7 @@
 </body>
 <script src="http://d3js.org/d3.v3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-<script src="data.js"></script>
+<script src="data2.js"></script>
 <script src="../heatmap.js"></script>
 <script>
 
@@ -19,6 +19,7 @@ var app = angular.module("app", ["heatmap"]);
 app.controller("democontroller", function($scope) {
 	
 	$scope.options= {
+		margin: { top: 150, right: 0, bottom: 100, left: 120 },
 		colors: ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"]
 	};
 
