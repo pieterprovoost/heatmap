@@ -1,3 +1,13 @@
+var debounce = function(f, timeout) {
+	var id = -1;
+	return function() {
+		if (id > -1) {
+			window.clearTimeout(id);
+		}
+		id = window.setTimeout(f, timeout);
+	}
+};
+
 angular.module("heatmap", []).directive("heatmap",
 	function() {
 		return {
@@ -26,18 +36,20 @@ angular.module("heatmap", []).directive("heatmap",
 
 				scope.dispatch = d3.dispatch("click", "mouseover", "mouseout");
 
-				var w = element[0].offsetWidth;
-				var h = element[0].offsetHeight;
-				var width = w - options.margin.left - options.margin.right;
-				var height = h - options.margin.top - options.margin.bottom;
+				var render = function() {
 
-				var svg = d3.select(element[0]).append("svg")
-					.attr("width", width + options.margin.left + options.margin.right)
-					.attr("height", height + options.margin.top + options.margin.bottom)
-					.append("g")
-					.attr("transform", "translate(" + options.margin.left + "," + options.margin.top + ")");
+					var w = element[0].offsetWidth;
+					var h = element[0].offsetHeight;
+					var width = w - options.margin.left - options.margin.right;
+					var height = h - options.margin.top - options.margin.bottom;
 
-				scope.render = function(data) {
+					d3.select(element[0]).select("svg").remove();
+
+					var svg = d3.select(element[0]).append("svg")
+						.attr("width", width + options.margin.left + options.margin.right)
+						.attr("height", height + options.margin.top + options.margin.bottom)
+						.append("g")
+						.attr("transform", "translate(" + options.margin.left + "," + options.margin.top + ")");
 
 					var xu = {};
 					var x = [];
@@ -131,8 +143,12 @@ angular.module("heatmap", []).directive("heatmap",
 				};
 
 				scope.$watch("data", function() {
-					scope.render(scope.data);
+					render();
 				}, true);
+				
+				d3.select(window).on("resize", debounce(function() {
+					render();
+				}, 500));
 
 			}
 		}
