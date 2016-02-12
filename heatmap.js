@@ -93,7 +93,7 @@ angular.module("heatmap", []).directive("heatmap",
 						.attr("class", function(d, i) { return ("xLabel axis"); });
 
 					var colorScale = d3.scale.quantile()
-						.domain([0, options.buckets - 1, d3.max(data, function (d) { return d.value; })])
+						.domain([0, options.buckets - 1, d3.max(scope.data, function (d) { return d.value; })])
 						.range(options.colors);
 
 					var cards = svg.selectAll(".square")
