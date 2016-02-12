@@ -17,7 +17,7 @@
 <body ng-controller="democontroller">
 
 <heatmap id="chart1" class="chart" data="data2" dispatch="dispatch" options="options1"></heatmap>
-<heatmap id="chart2" class="chart" data="data3" options="options2"></heatmap>
+<heatmap id="chart2" class="chart" data="data3" dispatch="dispatch2" options="options2"></heatmap>
 
 </body>
 <script src="http://d3js.org/d3.v3.js"></script>
@@ -48,6 +48,14 @@ app.controller("democontroller", function($scope) {
 	$scope.$watch("dispatch", function() {
 		if ($scope.dispatch) {
 			$scope.dispatch.on("click", function(e) {
+				console.log(e);
+			});
+		}
+	}, true);
+
+	$scope.$watch("dispatch2", function() {
+		if ($scope.dispatch2) {
+			$scope.dispatch2.on("click", function(e) {
 				console.log(e);
 			});
 		}
