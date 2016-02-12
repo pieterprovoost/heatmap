@@ -7,7 +7,7 @@
 	font-family: Verdana;
 }
 
-#chart {
+.chart {
 	width: 50%;
 	height: 600px;
 	background-color: #ffffff;
@@ -16,12 +16,14 @@
 </head>
 <body ng-controller="democontroller">
 
-<heatmap id="chart" data="data" dispatch="dispatch" options="options"></heatmap>
+<heatmap id="chart1" class="chart" data="data2" dispatch="dispatch" options="options1"></heatmap>
+<heatmap id="chart2" class="chart" data="data3" options="options2"></heatmap>
 
 </body>
 <script src="http://d3js.org/d3.v3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 <script src="data2.js"></script>
+<script src="data3.js"></script>
 <script src="../heatmap.js"></script>
 <script>
 
@@ -29,12 +31,19 @@ var app = angular.module("app", ["heatmap"]);
 
 app.controller("democontroller", function($scope) {
 	
-	$scope.options= {
+	$scope.options1 = {
 		margin: { top: 150, right: 0, bottom: 100, left: 120 },
 		colors: ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"]
 	};
 
-	$scope.data = data;
+	$scope.options2 = {
+		margin: { top: 150, right: 0, bottom: 100, left: 120 },
+		colors: ["#cc3300"],
+		legend: false
+	};
+
+	$scope.data2 = data2;
+	$scope.data3 = data3;
 	
 	$scope.$watch("dispatch", function() {
 		if ($scope.dispatch) {

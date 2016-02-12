@@ -23,6 +23,7 @@ angular.module("heatmap", []).directive("heatmap",
 			link: function(scope, element) {
 
 				var options = {
+					legend: true,
 					margin: { top: 50, right: 0, bottom: 100, left: 50 },
 					buckets: 9,
 					colors: ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"],
@@ -118,27 +119,31 @@ angular.module("heatmap", []).directive("heatmap",
 
 					cards.exit().remove();
 
-					var legend = svg.selectAll(".legend")
-						.data([0].concat(colorScale.quantiles()).concat(d3.max(scope.data, function (d) { return d.value; })), function(d) { return d; });
+					if (options.legend) {
 
-					legend.enter().append("g").attr("class", "legend");
+						var legend = svg.selectAll(".legend")
+							.data([0].concat(colorScale.quantiles()).concat(d3.max(scope.data, function (d) { return d.value; })), function(d) { return d; });
 
-					legend.append("rect")
-						.attr("x", function(d, i) { return legendElementWidth * i; })
-						.attr("y", height * 1.05)
-						.attr("width", legendElementWidth)
-						.attr("height", legendElementHeight)
-						.style("fill", function(d, i) { return options.colors[i]; })
-						.style("visibility", function(d, i) { return(i < options.buckets ? "visible" : "hidden") });
+						legend.enter().append("g").attr("class", "legend");
 
-					legend.append("text")
-						.attr("class", "legendLabel")
-						.text(function(d) { return Math.round(d); })
-						.attr("x", function(d, i) { return legendElementWidth * i; })
-						.attr("y", height * 1.15)
-						.style("text-anchor", "middle");
+						legend.append("rect")
+							.attr("x", function(d, i) { return legendElementWidth * i; })
+							.attr("y", height * 1.05)
+							.attr("width", legendElementWidth)
+							.attr("height", legendElementHeight)
+							.style("fill", function(d, i) { return options.colors[i]; })
+							.style("visibility", function(d, i) { return(i < options.buckets ? "visible" : "hidden") });
 
-					legend.exit().remove();
+						legend.append("text")
+							.attr("class", "legendLabel")
+							.text(function(d) { return Math.round(d); })
+							.attr("x", function(d, i) { return legendElementWidth * i; })
+							.attr("y", height * 1.15)
+							.style("text-anchor", "middle");
+
+						legend.exit().remove();
+
+					}
 
 				};
 
