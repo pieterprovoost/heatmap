@@ -118,6 +118,7 @@ angular.module("heatmap", []).directive("heatmap",
 					cards.append("title");
 
 					cards.enter().append("rect")
+						.filter(function(d) { return d.value != null })
 						.attr("x", function(d) { return d.xIndex * xGridSize; })
 						.attr("y", function(d) { return d.yIndex * yGridSize; })
 						.attr("class", "square")
