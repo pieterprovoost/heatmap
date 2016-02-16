@@ -21,6 +21,7 @@
 <body ng-controller="democontroller">
 
 <heatmap class="chart" data="data" dispatch="dispatch" options="options"></heatmap>
+<heatmap class="chart" data="data" options="options2"></heatmap>
 
 </body>
 <script src="http://d3js.org/d3.v3.js"></script>
@@ -33,12 +34,22 @@ var app = angular.module("app", ["heatmap"]);
 
 app.controller("democontroller", function($scope) {
 	
+	$scope.data = data;
+
 	$scope.options = {
 		margin: { top: 150, right: 0, bottom: 100, left: 120 },
 		colors: ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"]
 	};
 
-	$scope.data = data;
+	$scope.options2 = {
+		margin: { top: 150, right: 0, bottom: 100, left: 120 },
+		colors: [
+			["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b"],
+			["#fff5eb", "#fee6ce", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#a63603", "#7f2704"]
+		],
+		breaks: [4],
+		legend: false
+	};
 	
 	$scope.$watch("dispatch", function() {
 		if ($scope.dispatch) {
