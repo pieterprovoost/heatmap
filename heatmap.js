@@ -69,9 +69,9 @@ angular.module("heatmap", []).directive("heatmap",
 						yu[scope.data[i].y] = 0;
 					}
 
-					for (d in data) {
-						data[d].xIndex = x.indexOf(data[d].x);
-						data[d].yIndex = y.indexOf(data[d].y);
+					for (d in scope.data) {
+						scope.data[d].xIndex = x.indexOf(scope.data[d].x);
+						scope.data[d].yIndex = y.indexOf(scope.data[d].y);
 					}
 
 					var xGridSize = Math.floor(width / x.length);
