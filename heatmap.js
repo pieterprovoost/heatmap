@@ -103,12 +103,12 @@ angular.module("heatmap", []).directive("heatmap",
 					if (options.breaks != null && options.breaks.length > 0) {
 						for (b in options.colors) {
 							colorScales.push(d3.scale.quantile()
-								.domain([0, options.buckets - 1, d3.max(scope.data, function (d) { return d.value; })])
+								.domain([0, options.buckets - 1, d3.max(scope.data, function(d) { return d.value; })])
 								.range(options.colors[b]));
 						}
 					} else {
 						colorScales.push(d3.scale.quantile()
-							.domain([0, options.buckets - 1, d3.max(scope.data, function (d) { return d.value; })])
+							.domain([0, options.buckets - 1, d3.max(scope.data, function(d) { return d.value; })])
 							.range(options.colors));
 					}
 
@@ -129,7 +129,9 @@ angular.module("heatmap", []).directive("heatmap",
 						.style("fill", "#ffffff");
 
 					cards.transition().duration(options.duration).style("fill", function(d) {
-						if (options.breaks != null && options.breaks.length > 0) {
+						if (options.customColors && options.customColors.hasOwnProperty(d.value)) {
+							return options.customColors[d.value];
+						} else if (options.breaks != null && options.breaks.length > 0) {
 							for (b in options.breaks) {
 								if (d.xIndex < options.breaks[b]) {
 									return colorScales[b](d.value);
