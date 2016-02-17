@@ -36,7 +36,7 @@ angular.module("heatmap", []).directive("heatmap",
 					options = angular.extend(options, scope.options);
 				}
 
-				scope.dispatch = d3.dispatch("click", "mouseover", "mouseout");
+				scope.dispatch = d3.dispatch("click", "mouseover", "mouseout", "mousemove");
 
 				var render = function() {
 
@@ -115,8 +115,6 @@ angular.module("heatmap", []).directive("heatmap",
 					var cards = svg.selectAll(".square")
 						.data(scope.data);
 
-					cards.append("title");
-
 					cards.enter().append("rect")
 						.filter(function(d) { return d.value != null })
 						.attr("x", function(d) { return d.xIndex * xGridSize; })
@@ -127,6 +125,7 @@ angular.module("heatmap", []).directive("heatmap",
 						.on("click", function(d) { scope.dispatch.click(d); })
 						.on("mouseover", function(d) { scope.dispatch.mouseover(d); })
 						.on("mouseout", function(d) { scope.dispatch.mouseout(d); })
+						.on("mousemove", function(d) { scope.dispatch.mousemove(d); })
 						.style("fill", "#ffffff");
 
 					cards.transition().duration(options.duration).style("fill", function(d) {
@@ -141,8 +140,6 @@ angular.module("heatmap", []).directive("heatmap",
 							return colorScales[0](d.value);
 						}
 					});
-
-					cards.select("title").text(function(d) { return d.value; });
 
 					cards.exit().remove();
 
